@@ -947,9 +947,11 @@
             filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
             transition: filter 0.3s ease, transform 0.3s ease;
         }
-        /* Remove white backgrounds via blend mode (fallback + cleanup of canvas remnants) */
+        /* Remove white backgrounds via blend mode + edge mask */
         .bottle img {
             mix-blend-mode: multiply;
+            -webkit-mask-image: radial-gradient(ellipse 88% 92% at 50% 50%, black 55%, transparent 100%);
+            mask-image: radial-gradient(ellipse 88% 92% at 50% 50%, black 55%, transparent 100%);
         }
         .perfume-card:hover .bottle img {
             filter: drop-shadow(0 6px 28px rgba(184,168,138,0.25));
