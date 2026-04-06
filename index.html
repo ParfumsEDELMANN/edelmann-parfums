@@ -3404,7 +3404,8 @@
             })
             .then(function(r) { if (!r.ok) throw new Error('Worker '+r.status); return r.json(); })
             .then(function(data) {
-                var parsed = JSON.parse(data.content);
+                var raw = data.content.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+                var parsed = JSON.parse(raw);
                 if (!parsed.top3 || !parsed.top3.length) throw new Error('Bad AI response');
                 _aiCache[cacheKey] = parsed;
                 onDone(parsed);
