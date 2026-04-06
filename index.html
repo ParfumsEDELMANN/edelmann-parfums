@@ -2710,25 +2710,31 @@
         }
         
         function updateCountdown() {
-            const target = new Date('2026-06-29T00:00:00').getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
-            
-            if(diff > 0) {
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const secs = Math.floor((diff % (1000 * 60)) / 1000);
-                
-                document.querySelectorAll('[data-countdown]').forEach(el => {
-                    const type = el.getAttribute('data-countdown');
-                    if(type === 'days') el.textContent = days;
-                    if(type === 'hours') el.textContent = hours;
-                    if(type === 'minutes') el.textContent = mins;
-                    if(type === 'seconds') el.textContent = secs;
-                });
+            var target = new Date('2026-06-29T00:00:00').getTime();
+            var now = new Date().getTime();
+            var diff = target - now;
+            var dEl = document.getElementById('cd-days');
+            var hEl = document.getElementById('cd-hours');
+            var mEl = document.getElementById('cd-mins');
+            var sEl = document.getElementById('cd-secs');
+            if (!dEl) return;
+            if (diff <= 0) {
+                dEl.textContent = '00'; hEl.textContent = '00';
+                mEl.textContent = '00'; sEl.textContent = '00';
+                return;
             }
+            var days  = Math.floor(diff / 86400000);
+            var hours = Math.floor((diff % 86400000) / 3600000);
+            var mins  = Math.floor((diff % 3600000) / 60000);
+            var secs  = Math.floor((diff % 60000) / 1000);
+            dEl.textContent = String(days).padStart(2,'0');
+            hEl.textContent = String(hours).padStart(2,'0');
+            mEl.textContent = String(mins).padStart(2,'0');
+            sEl.textContent = String(secs).padStart(2,'0');
         }
+        /* Run countdown immediately (DOM is ready since script is at end of body) */
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
         
         let favPerfumes = ['', ''];
 
@@ -3719,31 +3725,7 @@
 
             document.getElementById('hero-section').classList.add('active');
 
-            /* Countdown Timer — Launch Date: 1. September 2026 */
-            (function() {
-                const launchDate = new Date('2026-06-29T00:00:00').getTime();
-                function updateCountdown() {
-                    const now = new Date().getTime();
-                    const diff = launchDate - now;
-                    if (diff <= 0) {
-                        document.getElementById('cd-days').textContent = '00';
-                        document.getElementById('cd-hours').textContent = '00';
-                        document.getElementById('cd-mins').textContent = '00';
-                        document.getElementById('cd-secs').textContent = '00';
-                        return;
-                    }
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const secs = Math.floor((diff % (1000 * 60)) / 1000);
-                    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
-                    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
-                    document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
-                    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
-                }
-                updateCountdown();
-                setInterval(updateCountdown, 1000);
-            })();
+            /* Countdown läuft bereits global (script-level) */
         });
     </script>
 </body>
