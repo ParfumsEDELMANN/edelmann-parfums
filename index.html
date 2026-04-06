@@ -947,8 +947,8 @@
             filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
             transition: filter 0.3s ease, transform 0.3s ease;
         }
-        /* Fallback: remove white backgrounds via blend mode when canvas removal failed */
-        .bottle img:not([data-cleaned="1"]) {
+        /* Remove white backgrounds via blend mode (fallback + cleanup of canvas remnants) */
+        .bottle img {
             mix-blend-mode: multiply;
         }
         .perfume-card:hover .bottle img {
@@ -2367,7 +2367,7 @@
                 /* be ultra-conservative — only remove pixels virtually identical */
                 /* to pure white. This preserves cream/off-white bottle bodies   */
                 /* like Pegasus that sit on a white background.                  */
-                var THRESH = (bgLum > 252) ? 7 : 20;
+                var THRESH = (bgLum > 252) ? 12 : 20;
                 var vis = new Uint8Array(total);
                 var bg = new Uint8Array(total);
                 var q = [], qi = 0;
